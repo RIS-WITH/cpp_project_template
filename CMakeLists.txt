@@ -34,9 +34,8 @@ if($ENV{ROS_VERSION} STREQUAL "1")
     message_generation
   )
 
-  # Install python scripts using distutils
-  catkin_python_setup()
-
+# Install python scripts using distutils
+# catkin_python_setup() # uncomment if you have to deploy python scripts
 elseif($ENV{ROS_VERSION} STREQUAL "2")
   find_package(ament_cmake REQUIRED)
   find_package(rosidl_default_generators REQUIRED)
@@ -97,15 +96,13 @@ endif()
 # ##################################
 # #   ROS independent libraries   ##
 # ##################################
-add_project_library(project_name_lib
-
-  # src/file.cpp
-)
-target_link_libraries(project_name_lib
-  PUBLIC
-
-  # project_name_sublib
-)
+# add_project_library(project_name_lib
+# src/file.cpp
+# )
+# target_link_libraries(project_name_lib
+# PUBLIC
+# project_name_sublib
+# )
 
 # ##################################
 # #    ROS dependent libraries    ##
@@ -176,7 +173,8 @@ endfunction(add_ros_executable)
 
 # NODES
 add_ros_executable(project_name_node src/nodes/project_name_node.cpp)
-target_link_libraries(project_name_node PRIVATE project_name_lib)
+
+# target_link_libraries(project_name_node PRIVATE project_name_lib)
 
 # ##################################
 # #            Install            ##
@@ -185,7 +183,7 @@ if($ENV{ROS_VERSION} STREQUAL "1")
   install(TARGETS ontoloGUI RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
   install(TARGETS
-    project_name_lib
+    project_name_compat
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -208,7 +206,7 @@ if($ENV{ROS_VERSION} STREQUAL "1")
 
 elseif($ENV{ROS_VERSION} STREQUAL "2")
   install(TARGETS
-    project_name_lib
+    project_name_compat
     EXPORT project_name
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
