@@ -118,7 +118,7 @@ function(add_ros_library TARGET)
   add_library(${TARGET} ${ARGN})
 
   if($ENV{ROS_VERSION} STREQUAL "1")
-    add_dependencies(${TARGET} project_name_gencpp ${catkin_EXPORTED_TARGETS})
+    add_dependencies(${TARGET} ${catkin_EXPORTED_TARGETS}) # add 'project_name_gencpp' if you generate messages
     target_include_directories(${TARGET} PUBLIC include ${catkin_INCLUDE_DIRS})
     target_link_libraries(${TARGET} PUBLIC ${catkin_LIBRARIES})
   elseif($ENV{ROS_VERSION} STREQUAL "2")
