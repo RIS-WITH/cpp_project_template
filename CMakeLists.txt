@@ -44,32 +44,32 @@ elseif($ENV{ROS_VERSION} STREQUAL "2")
   find_package(ament_cmake_python REQUIRED)
   find_package(std_msgs REQUIRED)
 
-  #ament_python_install_package(folder_name)
+  # ament_python_install_package(folder_name)
 endif()
 
 # ###############################################
 # # Declare ROS messages, services and actions ##
 # ###############################################
 if($ENV{ROS_VERSION} STREQUAL "1")
-  # # Generate messages in the 'msg' folder
- # add_message_files(
- #   FILES
- # )
+# # Generate messages in the 'msg' folder
+# add_message_files(
+# FILES
+# )
 
-  # # Generate services in the 'srv' folder
- # add_service_files(
- #   FILES
- # )
+# # Generate services in the 'srv' folder
+# add_service_files(
+# FILES
+# )
 
-  # # Generate added messages and services with any dependencies listed here
- # generate_messages(
- #   DEPENDENCIES
- #   std_msgs
- # )
+# # Generate added messages and services with any dependencies listed here
+# generate_messages(
+# DEPENDENCIES
+# std_msgs
+# )
 elseif($ENV{ROS_VERSION} STREQUAL "2")
-#  rosidl_generate_interfaces(project_name
-#    "msg/MyMeesage.msg"
-#    DEPENDENCIES builtin_interfaces std_msgs)
+  # rosidl_generate_interfaces(project_name
+  # "msg/MyMeesage.msg"
+  # DEPENDENCIES builtin_interfaces std_msgs)
 endif()
 
 # ##################################
@@ -78,13 +78,16 @@ endif()
 if($ENV{ROS_VERSION} STREQUAL "1")
   catkin_package(
     INCLUDE_DIRS include
-#    LIBRARIES project_name_lib
+
+    # LIBRARIES project_name_lib
     CATKIN_DEPENDS roscpp std_msgs
-#    DEPENDS TinyXML
+
+    # DEPENDS TinyXML
   )
 elseif($ENV{ROS_VERSION} STREQUAL "2")
   ament_export_dependencies(rosidl_default_runtime pluginlib)
-  rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} rosidl_typesupport_cpp)
+
+  # rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} rosidl_typesupport_cpp) # uncomment if you have msgs or srvs
 endif()
 
 # ##########
@@ -94,13 +97,14 @@ endif()
 # ##################################
 # #   ROS independent libraries   ##
 # ##################################
-
 add_project_library(project_name_lib
-#  src/file.cpp
+
+  # src/file.cpp
 )
 target_link_libraries(project_name_lib
   PUBLIC
-#  project_name_sublib
+
+  # project_name_sublib
 )
 
 # ##################################
@@ -174,7 +178,6 @@ endfunction(add_ros_executable)
 add_ros_executable(project_name_node src/nodes/project_name_node.cpp)
 target_link_libraries(project_name_node PRIVATE project_name_lib)
 
-
 # ##################################
 # #            Install            ##
 # ##################################
@@ -231,9 +234,9 @@ if($ENV{ROS_VERSION} STREQUAL "1")
   if(CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
 
-#    add_rostest_gtest(project_name_tester test/project_name_tester.test src/tests/test.cpp)
-#    target_include_directories(project_name_tester PRIVATE ${catkin_INCLUDE_DIRS})
-#    target_link_libraries(project_name_tester project_name_lib ${catkin_LIBRARIES})
+    # add_rostest_gtest(project_name_tester test/project_name_tester.test src/tests/test.cpp)
+    # target_include_directories(project_name_tester PRIVATE ${catkin_INCLUDE_DIRS})
+    # target_link_libraries(project_name_tester project_name_lib ${catkin_LIBRARIES})
   endif()
 
 elseif($ENV{ROS_VERSION} STREQUAL "2")
@@ -241,10 +244,10 @@ elseif($ENV{ROS_VERSION} STREQUAL "2")
     find_package(ament_lint_auto REQUIRED)
     find_package(ament_cmake_gtest REQUIRED)
 
-#    ament_add_gtest(project_name_tester src/tests/test.cpp TIMEOUT 10)
-#    set_target_properties(project_name_tester PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
-#    target_include_directories(project_name_tester PRIVATE ${catkin_INCLUDE_DIRS})
-#    target_link_libraries(project_name_tester project_name_lib ${catkin_LIBRARIES})
+    # ament_add_gtest(project_name_tester src/tests/test.cpp TIMEOUT 10)
+    # set_target_properties(project_name_tester PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+    # target_include_directories(project_name_tester PRIVATE ${catkin_INCLUDE_DIRS})
+    # target_link_libraries(project_name_tester project_name_lib ${catkin_LIBRARIES})
   endif()
 endif()
 
@@ -252,8 +255,7 @@ endif()
 # #            ROS2               ##
 # ##################################
 if($ENV{ROS_VERSION} STREQUAL "2")
-#  pluginlib_export_plugin_description_file(project_name reasoners_plugins_ros2.xml)
-
+  # pluginlib_export_plugin_description_file(project_name reasoners_plugins_ros2.xml)
   ament_export_include_directories(include)
   ament_package()
 endif()

@@ -34,6 +34,8 @@ jobs:
       ROS_DISTRO: ${{ matrix.ros_distro }}
     steps:
       - uses: actions/checkout@v1
+
+      # add your own dependencies here
       - name: Install ROS1
         run: |
             sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
@@ -43,7 +45,6 @@ jobs:
             sudo apt install -y ros-$ROS_DISTRO-desktop qtbase5-dev qtdeclarative5-dev
             sudo apt install -y libcppunit-dev libcurl4-openssl-dev
             sudo apt-get install python3-rosdep
-          # add your own dependencies there
 
             source /opt/ros/$ROS_DISTRO/setup.bash
             sudo rosdep init
