@@ -131,7 +131,7 @@ function(add_ros_library TARGET)
 
   set_target_properties(${TARGET} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
   target_compile_options(${TARGET} PRIVATE $<$<CXX_COMPILER_ID:Clang>:-frelaxed-template-template-args>)
-  target_compile_options(${TARGET} PUBLIC -DONTO_ROS_VERSION=$ENV{ROS_VERSION})
+  target_compile_options(${TARGET} PUBLIC -DPROJECT_NAME_ROS_VERSION=$ENV{ROS_VERSION})
   target_compile_options(${TARGET} PRIVATE -Wall -Wextra)
 endfunction(add_ros_library)
 
@@ -164,7 +164,7 @@ function(add_ros_executable TARGET)
   endif()
 
   set_target_properties(${TARGET} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-  target_compile_options(${TARGET} PUBLIC -DONTO_ROS_VERSION=$ENV{ROS_VERSION})
+  target_compile_options(${TARGET} PUBLIC -DPROJECT_NAME_ROS_VERSION=$ENV{ROS_VERSION})
   target_compile_options(${TARGET} PRIVATE -Wall -Wextra)
 endfunction(add_ros_executable)
 
