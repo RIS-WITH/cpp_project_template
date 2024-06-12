@@ -67,5 +67,5 @@ jobs:
         run: |
           cd ~/catkin_ws
           source devel/setup.bash
-          catkin_make catkin_make test -j1
-        # add run_tests_project_name_rostest -j1 && for more explicit results
+          catkin_make test -j1
+        # add `catkin_make run_tests_project_name_rostest -j1 &&` for more explicit results
