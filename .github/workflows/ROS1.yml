@@ -1,0 +1,69 @@
+name: ROS1 CI
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - 'launch/ros2/**'
+      - 'resources/*'
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'launch/ros2/**'
+      - 'resources/*'
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        include:
+          #- operating-system: ubuntu-18.04
+          #  ros_distro: melodic
+          #  distro: bionic
+          - operating-system: ubuntu-20.04
+            ros_distro: noetic
+            distro: focal
+    env:
+      ROS_CI_DESKTOP: ${{ matrix.distro }}
+      CI_SOURCE_PATH: $(pwd)
+      # Set the python path manually to include /usr/-/python2.7/dist-packages
+      # as this is where apt-get installs python packages.
+      PYTHONPATH: $PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages:/usr/lib/python3.8/dist-packages:/usr/local/lib/python3.8/dist-packages
+      ROS_DISTRO: ${{ matrix.ros_distro }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install ROS1
+        run: |
+            sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
+            sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+            sudo apt update -qq
+            sudo apt install dpkg
+            sudo apt install -y ros-$ROS_DISTRO-desktop qtbase5-dev qtdeclarative5-dev
+            sudo apt install -y libcppunit-dev libcurl4-openssl-dev
+            sudo apt-get install python3-rosdep
+          # add your own dependencies there
+
+            source /opt/ros/$ROS_DISTRO/setup.bash
+            sudo rosdep init
+            rosdep update --include-eol-distros  # Support EOL distros.
+
+      - name: build
+        run: |
+          source /opt/ros/$ROS_DISTRO/setup.bash
+          cmake --version
+          mkdir -p ~/catkin_ws/src
+          cd ~/catkin_ws
+          catkin_make
+          source devel/setup.bash
+          cd ~/catkin_ws/src
+          ln -s ~/work  # $CI_SOURCE_PATH
+          cd ..
+          catkin_make
+          
+      - name: rostest
+        run: |
+          cd ~/catkin_ws
+          source devel/setup.bash
+          catkin_make run_tests_project_name_rostest -j1 && catkin_make test -j1
