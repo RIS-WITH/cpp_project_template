@@ -169,9 +169,8 @@ function(add_ros_executable TARGET)
 endfunction(add_ros_executable)
 
 # NODES
-add_ros_executable(project_name_node src/nodes/project_name_node.cpp)
-
-# target_link_libraries(project_name_node PRIVATE project_name_lib)
+add_ros_executable(my_node src/nodes/my_node.cpp)
+target_link_libraries(my_node PRIVATE project_name_compat)
 
 # ##################################
 # #            Install            ##
@@ -211,7 +210,7 @@ elseif($ENV{ROS_VERSION} STREQUAL "2")
     DESTINATION lib/${PROJECT_NAME})
 
   install(TARGETS
-    project_name_node
+    my_node
     DESTINATION lib/${PROJECT_NAME})
 
   install(DIRECTORY launch/ros2/launch DESTINATION share/${PROJECT_NAME}/)
