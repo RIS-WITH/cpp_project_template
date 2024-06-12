@@ -30,6 +30,11 @@ namespace std_msgs_compat = std_msgs;
 
 namespace std_msgs_compat = std_msgs::msg;
 
+namespace project_name::msg {
+}
+namespace project_name::srv {
+}
+
 #endif
 
 #include <functional>

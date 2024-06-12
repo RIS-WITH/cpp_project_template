@@ -176,7 +176,7 @@ target_link_libraries(my_node PRIVATE project_name_compat)
 # #            Install            ##
 # ##################################
 if($ENV{ROS_VERSION} STREQUAL "1")
-  install(TARGETS ontoloGUI RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+  install(TARGETS my_node RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
   install(TARGETS
     project_name_compat
@@ -213,7 +213,7 @@ elseif($ENV{ROS_VERSION} STREQUAL "2")
     my_node
     DESTINATION lib/${PROJECT_NAME})
 
-  install(DIRECTORY launch/ros2/launch DESTINATION share/${PROJECT_NAME}/)
+  # install(DIRECTORY launch/ros2/launch DESTINATION share/${PROJECT_NAME}/) # uncomment if you have ROS2 launch files
   install(DIRECTORY include/ DESTINATION include)
 
   install(DIRECTORY docs DESTINATION share/${PROJECT_NAME}/)
