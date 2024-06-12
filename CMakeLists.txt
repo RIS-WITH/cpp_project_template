@@ -17,7 +17,6 @@ function(add_project_library TARGET)
   set_target_properties(${TARGET} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
   target_compile_options(${TARGET} PRIVATE -Wall -Wextra)
   target_compile_options(${TARGET} PRIVATE $<$<CXX_COMPILER_ID:Clang>:-frelaxed-template-template-args>)
-  target_enable_sanitizers(${TARGET})
 endfunction(add_project_library)
 
 # ###############################################
@@ -84,7 +83,7 @@ if($ENV{ROS_VERSION} STREQUAL "1")
     # DEPENDS TinyXML
   )
 elseif($ENV{ROS_VERSION} STREQUAL "2")
-  ament_export_dependencies(rosidl_default_runtime pluginlib)
+  ament_export_dependencies(rosidl_default_runtime)
 
   # rosidl_get_typesupport_target(cpp_typesupport_target ${PROJECT_NAME} rosidl_typesupport_cpp) # uncomment if you have msgs or srvs
 endif()
@@ -123,7 +122,7 @@ function(add_ros_library TARGET)
     target_include_directories(${TARGET} PUBLIC include ${catkin_INCLUDE_DIRS})
     target_link_libraries(${TARGET} PUBLIC ${catkin_LIBRARIES})
   elseif($ENV{ROS_VERSION} STREQUAL "2")
-    ament_target_dependencies(${TARGET} PUBLIC rclcpp pluginlib builtin_interfaces std_msgs)
+    ament_target_dependencies(${TARGET} PUBLIC rclcpp builtin_interfaces std_msgs)
     target_include_directories(${TARGET} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
       $<INSTALL_INTERFACE:include>)
     target_link_libraries(${TARGET} PUBLIC ${cpp_typesupport_target})
@@ -134,7 +133,6 @@ function(add_ros_library TARGET)
   target_compile_options(${TARGET} PRIVATE $<$<CXX_COMPILER_ID:Clang>:-frelaxed-template-template-args>)
   target_compile_options(${TARGET} PUBLIC -DONTO_ROS_VERSION=$ENV{ROS_VERSION})
   target_compile_options(${TARGET} PRIVATE -Wall -Wextra)
-  target_enable_sanitizers(${TARGET})
 endfunction(add_ros_library)
 
 # Compatibility
@@ -160,7 +158,7 @@ function(add_ros_executable TARGET)
     target_include_directories(${TARGET} PUBLIC include PRIVATE ${catkin_INCLUDE_DIRS})
     target_link_libraries(${TARGET} PUBLIC ${catkin_LIBRARIES})
   elseif($ENV{ROS_VERSION} STREQUAL "2")
-    ament_target_dependencies(${TARGET} PUBLIC rclcpp pluginlib builtin_interfaces std_msgs)
+    ament_target_dependencies(${TARGET} PUBLIC rclcpp builtin_interfaces std_msgs)
     target_include_directories(${TARGET} PUBLIC include)
     target_link_libraries(${TARGET} PUBLIC ${cpp_typesupport_target})
   endif()
@@ -168,7 +166,6 @@ function(add_ros_executable TARGET)
   set_target_properties(${TARGET} PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
   target_compile_options(${TARGET} PUBLIC -DONTO_ROS_VERSION=$ENV{ROS_VERSION})
   target_compile_options(${TARGET} PRIVATE -Wall -Wextra)
-  target_enable_sanitizers(${TARGET})
 endfunction(add_ros_executable)
 
 # NODES
