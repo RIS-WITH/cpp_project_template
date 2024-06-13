@@ -39,6 +39,9 @@ do
 done
 
 mv project_name $name
+cd $name/include
+mv project_name $name
+cd ../..
 
 # This command runs only once on GHA!
 rm -rf .github/template.yml
