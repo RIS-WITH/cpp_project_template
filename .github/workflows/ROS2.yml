@@ -48,14 +48,14 @@ jobs:
           source /opt/ros/$ROS_DISTRO/setup.bash
           cmake --version
           cd $GITHUB_WORKSPACE
-          mkdir -p ros2_ws/src/project_name
+          mkdir -p ros2_ws/src/${{ github.event.repository.name }}
           cd ros2_ws
           colcon build --symlink-install
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: ros2_ws/src/project_name
+          path: ros2_ws/src/${{ github.event.repository.name }}
 
       - name: Build
         run: |

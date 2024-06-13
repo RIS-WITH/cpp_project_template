@@ -55,14 +55,14 @@ jobs:
           export CC=clang
           cmake --version
           cd $GITHUB_WORKSPACE
-          mkdir -p ros2_ws/src/project_name
+          mkdir -p ros2_ws/src/${{ github.event.repository.name }}
           cd ros2_ws
           colcon build --symlink-install
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: ros2_ws/src/project_name
+          path: ros2_ws/src/${{ github.event.repository.name }}
 
       - name: Build
         run: |
@@ -75,6 +75,6 @@ jobs:
 
       - name: Lint
         run: |
-          cd $GITHUB_WORKSPACE/ros2_ws/src/project_name
+          cd $GITHUB_WORKSPACE/ros2_ws/src/${{ github.event.repository.name }}
           ls
           python3 .github/run_clang_tidy.py . ../../build/

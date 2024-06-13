@@ -68,4 +68,4 @@ jobs:
           cd ~/catkin_ws
           source devel/setup.bash
           catkin_make test -j1
-        # add `catkin_make run_tests_project_name_rostest -j1 &&` for more explicit results
+        # add `catkin_make run_tests_${{ github.event.repository.name }}_rostest -j1 &&` for more explicit results
