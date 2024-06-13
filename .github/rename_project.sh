@@ -4,7 +4,7 @@ do
     case "${flag}" in
         a) author=${OPTARG};;
         n) name=${OPTARG};;
-        N) upper_name=${OPTARG};;
+        p) upper_name=${OPTARG};;
         c) camel_name=${OPTARG};;
         u) urlname=${OPTARG};;
         d) description=${OPTARG};;
