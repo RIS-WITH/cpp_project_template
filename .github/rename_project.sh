@@ -38,10 +38,9 @@ do
     echo "Renamed $filename"
 done
 
+cd include
 mv project_name $name
-cd $name/include
-mv project_name $name
-cd ../..
+cd ..
 
 # This command runs only once on GHA!
 rm -rf .github/template.yml
